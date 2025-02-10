@@ -1,17 +1,13 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Project.Interfaces.Services;
 using Project.Models;
 
 namespace Project.Controllers;
 
-public class HomeController : Controller
+public class HomeController(IMessageService messageService) : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
+    private readonly IMessageService _messageService = messageService;
 
     public IActionResult Index()
     {
@@ -23,14 +19,31 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Contact(){
-        
+    public IActionResult Contact()
+    {
         return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ContactPost(string email, string name, string message)
+    {
+        Message mesaj = new()
+        {
+            Email = email,
+            Name = name,
+            Context = message,
+        };
+
+        await _messageService.AddMessagesAsync(mesaj);
+
+        return RedirectToAction(nameof(Contact));
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return View(
+            new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier }
+        );
     }
 }

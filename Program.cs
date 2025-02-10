@@ -2,7 +2,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
 using Project.Data;
+using Project.Interfaces.Repositories;
+using Project.Interfaces.Services;
 using Project.Models;
+using Project.Repositories;
+using Project.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +24,9 @@ builder
     .AddDefaultTokenProviders();
 
 builder.Services.AddRazorPages();
+
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+builder.Services.AddScoped<IMessageService, MessageService>();
 
 var app = builder.Build();
 

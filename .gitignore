@@ -23,10 +23,9 @@ app.db-journal
 
 ## Ignore secrets
 secrets.json
-appsettings*.json
 
-## Ignore Entity Framework migrations
-Migrations/
+
+
 
 ## Ignore temporary files
 *.tmp
