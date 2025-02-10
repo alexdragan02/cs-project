@@ -1,0 +1,59 @@
+# ASP.NET Core / MVC project .gitignore
+
+## Ignore Visual Studio user-specific files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Ignore build output
+bin/
+obj/
+
+## Ignore package management directories
+node_modules/
+wwwroot/lib/
+
+## Ignore logs and database
+*.log
+logs/
+app.db
+app.db-journal
+
+## Ignore secrets
+secrets.json
+appsettings*.json
+
+## Ignore Entity Framework migrations
+Migrations/
+
+## Ignore temporary files
+*.tmp
+*.temp
+*.cache
+*.log
+*.swp
+*.sln.docstates
+
+## Ignore Rider / JetBrains files
+.idea/
+*.sln.iml
+
+## Ignore IIS and deployment artifacts
+iisexpress/
+.publish/
+.azure/
+
+## Ignore compiled views
+**/*.cshtml.cache
+
+## Ignore ReSharper files
+_ReSharper.*
+*/_ReSharper.*
+*.DotSettings.user
+
+## Ignore NuGet packages
+*.nupkg
+*.nuget/
+packages/
