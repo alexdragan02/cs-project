@@ -32,9 +32,11 @@ namespace Project.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateMessagesAsync(Message message)
+        public async Task UpdateMessagesAsync(Message oldMessage, Message newMessage)
         {
-            _context.Messages.Update(message);
+            oldMessage.Email = newMessage.Email;
+            oldMessage.Name = newMessage.Name;
+            oldMessage.Context = newMessage.Context;
             await _context.SaveChangesAsync();
         }
     }

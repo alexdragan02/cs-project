@@ -28,9 +28,9 @@ namespace Project.Services
             await _messageRepository.RemoveMessagesAsync(message);
         }
 
-        public async Task UpdateMessagesAsync(Message message)
+        public async Task UpdateMessagesAsync(Message oldMessage, Message newMessage)
         {
-            await _messageRepository.UpdateMessagesAsync(message);
+            await _messageRepository.UpdateMessagesAsync(oldMessage, newMessage);
         }
     }
 }

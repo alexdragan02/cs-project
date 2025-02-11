@@ -1,5 +1,5 @@
-<header>
-    <nav class="bg-white border-b shadow-md p-4">
+<header class="fixed top-0 left-0 w-full bg-white border-b shadow-md z-50">
+    <nav class="p-4">
         <div class="container mx-auto flex justify-between items-center">
             <a class="text-xl font-bold text-indigo-600" asp-area="" asp-controller="Home" asp-action="Index">Project</a>
             <button class="md:hidden text-gray-600" id="menu-toggle">
@@ -9,12 +9,14 @@
             </button>
             <div class="hidden md:flex space-x-6" id="menu">
                 <a class="text-gray-700 hover:text-indigo-600" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <a class="text-gray-700 hover:text-indigo-600" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
                 <a class="text-gray-700 hover:text-indigo-600" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                 <a class="text-gray-700 hover:text-indigo-600" asp-area="Identity" asp-page="/Account/Login">Login</a>
                 <a class="text-gray-700 hover:text-indigo-600" asp-area="Identity" asp-page="/Account/Register">Register</a>
                 <a class="text-gray-700 hover:text-indigo-600" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
                 <a class="text-gray-700 hover:text-indigo-600" asp-area="Identity" asp-page="/Account/ForgotPassword">Forgot Password</a>
                 <a class="text-gray-700 hover:text-indigo-600" asp-area="Identity" asp-page="/Account/Manage/Index">Manage Account</a>
+                
             </div>
         </div>
     </nav>
@@ -24,3 +26,6 @@
         });
     </script>
 </header>
+
+<!-- Add padding to content to prevent it from being hidden under the fixed navbar -->
+<div class="pt-20"></div>

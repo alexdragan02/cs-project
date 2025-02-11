@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Project.Interfaces.Services;
 using Project.Models;
@@ -19,23 +20,66 @@ public class HomeController(IMessageService messageService) : Controller
         return View();
     }
 
-    public IActionResult Contact()
+    public async Task<IActionResult> Contact()
     {
-        return View();
+        var messages = await _messageService.GetMessagesAsync();
+        return View(messages);
     }
 
     [HttpPost]
-    public async Task<IActionResult> ContactPost(string email, string name, string message)
+    public async Task<IActionResult> ContactPost(Message message)
     {
-        Message mesaj = new()
+        System.Console.WriteLine("-------------------");
+        if (ModelState.IsValid)
         {
-            Email = email,
-            Name = name,
-            Context = message,
-        };
+            await _messageService.AddMessagesAsync(message);
+            Console.WriteLine("Adaugat cu success!");
+        }
+        else
+        {
+            foreach (var state in ModelState)
+            {
+                foreach (var error in state.Value.Errors)
+                {
+                    Console.WriteLine($"Property:{state.Key} Error: {error.ErrorMessage}");
+                }
+            }
+            // Console.WriteLine($"Model incorect");
+        }
 
-        await _messageService.AddMessagesAsync(mesaj);
+        return RedirectToAction(nameof(Contact));
+    }
 
+    public async Task<IActionResult> Delete(int id)
+    {
+        var message = await _messageService.GetMessageByIdAsync(id);
+        if (message == null)
+        {
+            return NotFound();
+        }
+        await _messageService.RemoveMessagesAsync(message);
+        return RedirectToAction(nameof(Contact));
+    }
+
+    public async Task<IActionResult> Edit(int id)
+    {
+        var message = await _messageService.GetMessageByIdAsync(id);
+        if (message == null)
+        {
+            return NotFound();
+        }
+        return View(message);
+    }
+
+    public async Task<IActionResult> Update(Message newMessage)
+    {
+        var oldMessage = await _messageService.GetMessageByIdAsync(newMessage.Id);
+        if (oldMessage == null)
+        {
+            return NotFound();
+        }
+
+        await _messageService.UpdateMessagesAsync(oldMessage, newMessage);
         return RedirectToAction(nameof(Contact));
     }
 
