@@ -6,7 +6,7 @@ namespace Project.Interfaces.Services
     {
         Task<List<Message>> GetMessagesAsync();
         Task<Message?> GetMessageByIdAsync(int id);
-        Task AddMessagesAsync(Message message);
+        Task AddMessagesAsync(Message message, IFormFile file);
         Task UpdateMessagesAsync(Message oldMessage, Message newMessage);
         Task RemoveMessagesAsync(Message message);
     }

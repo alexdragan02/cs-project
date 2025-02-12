@@ -6,9 +6,14 @@ using Project.Models;
 
 namespace Project.Controllers;
 
-public class HomeController(IMessageService messageService) : Controller
+public class HomeController : Controller
 {
-    private readonly IMessageService _messageService = messageService;
+    private readonly IMessageService _messageService;
+
+    public HomeController(IMessageService messageService)
+    {
+        _messageService = messageService;
+    }
 
     public IActionResult Index()
     {
@@ -29,25 +34,15 @@ public class HomeController(IMessageService messageService) : Controller
     [HttpPost]
     public async Task<IActionResult> ContactPost(Message message)
     {
-        System.Console.WriteLine("-------------------");
         if (ModelState.IsValid)
         {
-            await _messageService.AddMessagesAsync(message);
-            Console.WriteLine("Adaugat cu success!");
-        }
-        else
-        {
-            foreach (var state in ModelState)
-            {
-                foreach (var error in state.Value.Errors)
-                {
-                    Console.WriteLine($"Property:{state.Key} Error: {error.ErrorMessage}");
-                }
-            }
-            // Console.WriteLine($"Model incorect");
+            await _messageService.AddMessagesAsync(message, Request.Form.Files[0]);
+            return RedirectToAction(nameof(Contact));
         }
 
-        return RedirectToAction(nameof(Contact));
+        // Ensure the model state errors are passed back to the view
+        var messages = await _messageService.GetMessagesAsync();
+        return View(nameof(Contact), messages);
     }
 
     public async Task<IActionResult> Delete(int id)

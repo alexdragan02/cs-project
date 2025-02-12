@@ -3,9 +3,28 @@
 <div class="container mx-auto px-4 py-8">
     <!-- Contact Form -->
     <div class="flex justify-center">
-        <form method="post" asp-controller="Home" asp-action="ContactPost"
+        <form method="post" asp-controller="Home" asp-action="ContactPost" enctype="multipart/form-data"
             class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg">
-            <h2 class="text-2xl font-semibold text-gray-700 mb-4 text-center">Contact Us</h2>
+            @if (ViewContext.ViewData.ModelState.ErrorCount > 0)
+            {
+                <ul>
+                    @foreach (var item in ViewContext.ViewData.ModelState)
+                    {
+                        if (item.Value.Errors.Any())
+                        {
+                            <li class="flex flex-col gap-3">
+                                <span><b>@item.Key</b></span>
+                                <span>@((item.Value == null) ? "<null>" : item.Value.RawValue)
+                                </span>
+                                <span>@(string.Join("; ", item.Value.Errors.Select(x => x.ErrorMessage)))</span>
+                            </li>
+                        }
+                    }
+                </ul>
+            }
+
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4 text-c
+            enter">Contact Us</h2>
 
             <div class="mb-4">
                 <label for="email" class="block text-gray-600 text-sm font-medium mb-2">Email</label>
@@ -27,7 +46,12 @@
                     class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     rows="4" required></textarea>
             </div>
-
+            <div class="mb-4">
+                <label for="messageFile" class="block text-gray-600 text-sm font-medium mb-2">File</label>
+                <input type="file" name="MessageFile" id="MessageFile"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required>
+            </div>
             <button type="submit"
                 class="w-full bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 transition font-semibold">
                 Submit
@@ -35,49 +59,65 @@
         </form>
     </div>
 
-    @if(Model.Any())
+    @if (Model.Any())
     {
 
-    
-    <!-- Table Section -->
-    <div class="mt-12 overflow-x-auto">
-        <h2 class="text-2xl font-semibold text-gray-700 mb-4 text-center">Submitted Messages</h2>
-        <table class="min-w-full bg-white border border-gray-200 shadow-md rounded-lg">
-            <thead>
-                <tr class="bg-gray-100 border-b">
-                    <th class="px-6 py-3 text-left text-gray-600 uppercase font-semibold">Email</th>
-                    <th class="px-6 py-3 text-left text-gray-600 uppercase font-semibold">Name</th>
-                    <th class="px-6 py-3 text-left text-gray-600 uppercase font-semibold">Context</th>
-                    <th class="px-6 py-3 text-left text-gray-600 uppercase font-semibold">Actions</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200">
-                @foreach (var message in Model)
-                {
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4 text-gray-700">@message.Email</td>
-                        <td class="px-6 py-4 text-gray-700">@message.Name</td>
-                        <td class="px-6 py-4 text-gray-700">@message.Context</td>
-                        <td class="px-6 py-4 flex space-x-2">
-                            <a asp-controller="Home" asp-action="Edit" asp-route-id="@message.Id"
-                                class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition">
-                                Edit
-                            </a>
-                            <form method="post" asp-action="Delete" asp-route-id="@message.Id"
-                                onsubmit="return confirm('Are you sure you want to delete this message?');">
-                                <button type="submit"
-                                    class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
-                                    Delete
-                                </button>
-                            </form>
-                        </td>
+
+        <!-- Table Section -->
+        <div class="mt-12 overflow-x-auto">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4 text-center">Submitted Messages</h2>
+            <table class="min-w-full bg-white border border-gray-200 shadow-md rounded-lg">
+                <thead>
+                    <tr class="bg-gray-100 border-b">
+                        <th class="px-6 py-3 text-left text-gray-600 uppercase font-semibold">Email</th>
+                        <th class="px-6 py-3 text-left text-gray-600 uppercase font-semibold">Name</th>
+                        <th class="px-6 py-3 text-left text-gray-600 uppercase font-semibold">Context</th>
+                        <th class="px-6 py-3 text-left text-gray-600 uppercase font-semibold">Photo</th>
+                        <th class="px-6 py-3 text-left text-gray-600 uppercase font-semibold">Actions</th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    @foreach (var message in Model)
+                    {
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 text-gray-700">@message.Email</td>
+                            <td class="px-6 py-4 text-gray-700">@message.Name</td>
+                            <td class="px-6 py-4 text-gray-700">@message.Context</td>
+                            <td class="px-6 py-4 text-gray-700">
+                                @if (message.MessageFile != null)
+                                {
+                                    <img src="@message.MessageFile.FilePath" alt="message"
+                                        class="w-10 h-10 object-cover rounded-full">
+                                }
+                                else
+                                {
+                                    <span> Poza Nu este valabila</span>
+                                }
+                            </td>
+
+
+
+                            <td class="px-6 py-4 flex space-x-2">
+                                <a asp-controller="Home" asp-action="Edit" asp-route-id="@message.Id"
+                                    class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition">
+                                    Edit
+                                </a>
+                                <form method="post" asp-action="Delete" asp-route-id="@message.Id"
+                                    onsubmit="return confirm('Are you sure you want to delete this message?');">
+                                    <button type="submit"
+                                        class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     }
-    else{
+    else
+    {
         <div>
             Nu exista mesaje!
         </div>

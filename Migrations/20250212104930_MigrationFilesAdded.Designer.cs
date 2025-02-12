@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Project.Data;
@@ -11,9 +12,11 @@ using Project.Data;
 namespace Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250212104930_MigrationFilesAdded")]
+    partial class MigrationFilesAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -331,13 +334,11 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Models.MessageFile", b =>
                 {
-                    b.HasOne("Project.Models.Message", "Message")
+                    b.HasOne("Project.Models.Message", null)
                         .WithOne("MessageFile")
                         .HasForeignKey("Project.Models.MessageFile", "MessageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Message");
                 });
 
             modelBuilder.Entity("Project.Models.Message", b =>

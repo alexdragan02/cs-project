@@ -18,5 +18,7 @@ namespace Project.Models
 
         [Required(ErrorMessage = "Scrie un mesaj!")]
         public string Context { get; set; } = string.Empty;
+
+        public MessageFile? MessageFile { get; set; }
     }
 }

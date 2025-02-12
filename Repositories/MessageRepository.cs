@@ -9,6 +9,12 @@ namespace Project.Repositories
     {
         private readonly ApplicationDbContext _context = context;
 
+        public async Task AddMessageFileAsync(MessageFile file)
+        {
+            await _context.MessageFiles.AddAsync(file);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task AddMessagesAsync(Message message)
         {
             await _context.Messages.AddAsync(message);
@@ -17,13 +23,15 @@ namespace Project.Repositories
 
         public async Task<Message?> GetMessageByIdAsync(int id)
         {
-            var message = await _context.Messages.FirstOrDefaultAsync(message => message.Id == id);
+            var message = await _context
+                .Messages.Include(message => message.MessageFile)
+                .FirstOrDefaultAsync(message => message.Id == id);
             return message;
         }
 
         public async Task<List<Message>> GetMessagesAsync()
         {
-            return await _context.Messages.ToListAsync();
+            return await _context.Messages.Include(message => message.MessageFile).ToListAsync();
         }
 
         public async Task RemoveMessagesAsync(Message message)
