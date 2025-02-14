@@ -1,24 +1,33 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
-
+<html lang="ro">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Project</title>
-    <script src="https://unpkg.com/@@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="~/Project.styles.css" asp-append-version="true" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - HaosBarber Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-
-<body>
+<body class="min-h-screen bg-gray-50">
     <partial name="_Navbar" />
 
-    @RenderBody()
+    <div class="pt-20 pb-12">
+        @RenderBody()
+    </div>
 
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col items-center space-y-4">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-phone"></i>
+                    <span>+40 123 456 789</span>
+                </div>
+            </div>
+            <div class="mt-6 text-center text-gray-400">
+                <p>&copy; 2025 HaosBarber Shop. Toate drepturile rezervate.</p>
+            </div>
+        </div>
+    </footer>
 
-    
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
-
 </html>

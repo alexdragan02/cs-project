@@ -1,27 +1,42 @@
-<header class="fixed top-0 left-0 w-full bg-white border-b shadow-md z-50">
-    <nav class="p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <a class="text-xl font-bold text-indigo-600" asp-area="" asp-controller="Home" asp-action="Index">Project</a>
-            <button class="md:hidden text-gray-600" id="menu-toggle">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
-            </button>
-            <div class="hidden md:flex space-x-6" id="menu">
-                <a class="text-gray-700 hover:text-indigo-600" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-               
-                <a class="text-gray-700 hover:text-indigo-600" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                
-                
+<nav class="fixed top-0 w-full bg-white shadow-md z-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center">
+                <a asp-controller="Home" asp-action="Index" class="flex items-center">
+                    <i class="fas fa-cut text-blue-600 text-2xl"></i>
+                    <span class="ml-2 text-xl font-bold text-gray-800">Haos Barber Shop</span>
+                </a>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-8">
+                <a asp-controller="Home" asp-action="Index" class="text-gray-600 hover:text-blue-600">Acasă</a>
+                <a asp-controller="Services" asp-action="Index" class="text-gray-600 hover:text-blue-600">Servicii</a>
+                <a asp-controller="Team" asp-action="Index" class="text-gray-600 hover:text-blue-600">Echipa</a>
+                <a asp-controller="Appointment" asp-action="Index" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+                    Programează-te
+                </a>
+            </div>
+
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-600">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
             </div>
         </div>
-    </nav>
-    <script>
-        document.getElementById("menu-toggle").addEventListener("click", function() {
-            document.getElementById("menu").classList.toggle("hidden");
-        });
-    </script>
-</header>
+    </div>
 
-<!-- Add padding to content to prevent it from being hidden under the fixed navbar -->
-<div class="pt-20"></div>
+    <div id="mobile-menu" class="hidden md:hidden">
+        <div class="px-2 pt-2 pb-3 space-y-1">
+            <a asp-controller="Home" asp-action="Index" class="block px-3 py-2 text-gray-600">Acasă</a>
+            <a asp-controller="Services" asp-action="Index" class="block px-3 py-2 text-gray-600">Servicii</a>
+            <a asp-controller="Team" asp-action="Index" class="block px-3 py-2 text-gray-600">Echipa</a>
+            <a asp-controller="Appointment" asp-action="Index" class="block px-3 py-2 text-blue-600">Programează-te</a>
+        </div>
+    </div>
+</nav>
+
+<script>
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+        document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+</script>

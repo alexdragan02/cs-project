@@ -1,0 +1,104 @@
+@model Project.Models.Appointment
+@{
+    ViewData["Title"] = "Programare";
+    var services = ViewBag.Services as List<Service> ?? new List<Service>();
+    var barbers = ViewBag.Barbers as List<Barber> ?? new List<Barber>();
+    var selectedService = ViewBag.SelectedService as Service;
+    var selectedBarber = ViewBag.SelectedBarber as Barber;
+}
+
+<div class="max-w-2xl mx-auto px-4">
+    @if (TempData["Success"] != null)
+    {
+        <div class="mb-4 p-4 bg-green-100 text-green-700 rounded">
+            @TempData["Success"]
+        </div>
+    }
+
+    <form asp-action="Submit" method="post" class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-semibold mb-6">Programare Nouă</h2>
+
+        @if (selectedService == null)
+        {
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Serviciu</label>
+                <select asp-for="ServiceId" class="w-full rounded-md border-gray-300">
+                    <option value="">Selectează serviciul</option>
+                    @foreach (var service in services)
+                    {
+                        <option value="@service.Id">@service.Name - @service.Price Lei</option>
+                    }
+                </select>
+            </div>
+        }
+        else
+        {
+            <input type="hidden" asp-for="ServiceId" value="@selectedService.Id" />
+            <div class="mb-6 p-4 bg-gray-50 rounded">
+                <h3 class="font-semibold">Serviciu Selectat</h3>
+                <p>@selectedService.Name - @selectedService.Price Lei</p>
+            </div>
+        }
+
+        @if (selectedBarber == null)
+        {
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Bărbier</label>
+                <select asp-for="BarberId" class="w-full rounded-md border-gray-300">
+                    <option value="">Selectează bărbierul</option>
+                    @foreach (var barber in barbers)
+                    {
+                        <option value="@barber.Id">@barber.Name</option>
+                    }
+                </select>
+            </div>
+        }
+        else
+        {
+            <input type="hidden" asp-for="BarberId" value="@selectedBarber.Id" />
+            <div class="mb-6 p-4 bg-gray-50 rounded">
+                <h3 class="font-semibold">Bărbier Selectat</h3>
+                <p>@selectedBarber.Name</p>
+            </div>
+        }
+
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Data</label>
+            <input type="date" asp-for="Date" class="w-full rounded-md border-gray-300" required />
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Ora</label>
+            <select asp-for="Time" class="w-full rounded-md border-gray-300" required>
+                <option value="">Selectează ora</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:30">12:30</option>
+                <option value="14:00">14:00</option>
+                <option value="15:30">15:30</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:30">18:30</option>
+            </select>
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Nume Complet</label>
+            <input type="text" asp-for="FullName" class="w-full rounded-md border-gray-300" required />
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+            <input type="email" asp-for="Email" class="w-full rounded-md border-gray-300" required />
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Telefon</label>
+            <input type="tel" asp-for="Phone" class="w-full rounded-md border-gray-300" required />
+        </div>
+
+        <button type="submit" class="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition">
+            Salvează Programarea
+        </button>
+    </form>
+</div>

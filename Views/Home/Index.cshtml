@@ -1,8 +1,45 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Acasă";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="space-y-12">
+    <div class="relative h-[500px] rounded-xl overflow-hidden">
+        <img 
+            src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=1600" 
+            alt="HaosBarberShop"
+            class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-black/70 to-black/30 flex items-center">
+            <div class="max-w-2xl mx-auto px-6 text-white">
+                <h1 class="text-5xl font-bold mb-4">Tradiție și Stil din 2010</h1>
+                <p class="text-xl mb-8">Experiență premium în îngrijirea părului și bărbii pentru bărbatul modern</p>
+                <a asp-controller="Appointment" asp-action="Index" 
+                   class="inline-block bg-blue-600 text-white px-8 py-3 rounded-md hover:bg-blue-700 transition">
+                    Programează-te Acum
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-8">Povestea Noastră</h2>
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+                <p class="text-gray-600 mb-4">
+                    Totul a început în 2010, când pasiunea pentru arta bărbieritului și dorința de a oferi servicii premium s-au întâlnit într-un mic spațiu din centrul orașului.
+                </p>
+                <p class="text-gray-600 mb-4">
+                    De-a lungul anilor, am crescut organic, păstrând mereu aceeași dedicație pentru calitate și atenție la detalii care ne-au definit de la început.
+                </p>
+                <p class="text-gray-600">
+                    Astăzi, Haos BarberShop este mai mult decât un simplu salon - suntem o comunitate de profesioniști pasionați și clienți fideli care împărtășesc aceeași apreciere pentru îngrijirea autentică și stilul rafinat.
+                </p>
+            </div>
+            <img 
+                src="https://images.unsplash.com/photo-1512690459411-b9245aed614b?w=800" 
+                alt="Our Story"
+                class="rounded-lg shadow-lg"
+            />
+        </div>
+    </div>
 </div>
